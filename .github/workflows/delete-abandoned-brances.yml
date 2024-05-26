@@ -1,0 +1,27 @@
+name: Delete abandoned branches
+
+on:
+#Run every friday at 11 gmt+3 (utc 8) 
+  schedule:
+    - cron: "5 * * * *"
+
+
+jobs:
+  cleanup_old_branches:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    name: clean repository
+    steps:
+      - name: Delete dead branches
+        uses: phpdocker-io/github-actions-delete-abandoned-branches@v2
+        id: delete_stuff
+        with:
+          github_token: ${{ github.token }}
+          last_commit_age_days: 0
+          ignore_branches: dev,test,prod,fix*
+
+          # Disable dry run and actually get stuff deleted
+          dry_run: no
+
+      - name: Get output
+        run: "echo 'Deleted branches: ${{ steps.delete_stuff.outputs.deleted_branches }}'"
