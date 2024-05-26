@@ -3,7 +3,7 @@ name: Delete abandoned branches
 on:
 #Run every friday at 11 gmt+3 (utc 8) 
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "5 * * * 1"
 
 
 jobs:
